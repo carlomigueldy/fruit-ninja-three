@@ -2,7 +2,7 @@
 
 A polished browser-based Fruit Ninja-style arcade game built with **Vite**, **TypeScript**, and **Three.js**. Swipe through flying fruit, chain combo slices, avoid bombs, and survive as long as possible in a responsive 3D dojo scene.
 
-**Live demo:** _deployment URL will be added after Vercel deploy_  
+**Live demo:** https://fruit-ninja-three-inky.vercel.app  
 **Repository:** https://github.com/carlomigueldy/fruit-ninja-three
 
 ## Table of Contents
