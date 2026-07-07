@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#170820" />
+    <title>Fruit Ninja Three.js</title>
+  </head>
+  <body>
+    <main id="app" aria-label="Fruit Ninja Three.js game canvas"></main>
+
+    <section id="hud" aria-label="Game status">
+      <div class="hud-card score-card">
+        <span class="hud-label">Score</span>
+        <strong id="scoreValue">0</strong>
+      </div>
+      <div class="hud-card combo-card" id="comboBadge" aria-live="polite">Slice fruit to begin</div>
+      <div class="hud-card lives-card">
+        <span class="hud-label">Lives</span>
+        <strong id="livesValue" aria-label="Lives remaining">❤ ❤ ❤</strong>
+      </div>
+      <div class="hud-card high-card">
+        <span class="hud-label">Best</span>
+        <strong id="highValue">0</strong>
+      </div>
+    </section>
+
+    <section id="overlay" class="overlay visible" role="dialog" aria-labelledby="overlayTitle" aria-describedby="overlayText">
+      <div class="overlay-panel">
+        <p class="eyebrow">Three.js arcade clone</p>
+        <h1 id="overlayTitle">Fruit Slash Dojo</h1>
+        <p id="overlayText">Swipe or drag through flying fruit. Chain combos, avoid bombs, and don't let fruit fall.</p>
+        <ul class="feature-list">
+          <li>Mouse, pen, and touch swipe slicing</li>
+          <li>Juice particles, fruit halves, combos, lives, bombs</li>
+          <li>Responsive 3D scene built with Three.js</li>
+        </ul>
+        <button id="startButton" type="button">Start slicing</button>
+      </div>
+    </section>
+
+    <div id="toast" aria-live="polite"></div>
+    <button id="muteButton" type="button" class="mute-button" aria-label="Mute sound" aria-pressed="false" title="Mute sound (M)">
+      <span class="mute-icon" aria-hidden="true">🔊</span>
+    </button>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

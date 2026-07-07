@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Inter:wght@500;700;900&display=swap');
+
+:root {
+  color-scheme: dark;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #170820;
+  color: #fff8dc;
+  --gold: #ffce52;
+  --pink: #ff5b9f;
+  --green: #7df56d;
+  --cyan: #54e6ff;
+  --ink: rgba(11, 5, 20, 0.78);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 198, 82, 0.18), transparent 32rem),
+    radial-gradient(circle at 15% 80%, rgba(255, 91, 159, 0.16), transparent 28rem),
+    linear-gradient(180deg, #271144, #110414 72%);
+  touch-action: none;
+  user-select: none;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+#hud {
+  position: fixed;
+  inset: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) auto max(16px, env(safe-area-inset-left));
+  display: grid;
+  grid-template-columns: auto minmax(160px, 1fr) auto auto;
+  gap: 12px;
+  align-items: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.hud-card {
+  min-height: 56px;
+  padding: 9px 16px;
+  border: 2px solid rgba(255, 239, 171, 0.5);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(27, 10, 39, 0.82), rgba(72, 22, 56, 0.58));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.hud-label {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.74;
+}
+
+.hud-card strong {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(1.45rem, 3.8vw, 2.2rem);
+  line-height: 0.95;
+  color: var(--gold);
+}
+
+.combo-card {
+  display: grid;
+  place-items: center;
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  color: #fff8dc;
+  text-align: center;
+}
+
+.combo-card.hot {
+  color: #0b0415;
+  background: linear-gradient(135deg, #ffec8a, #ff5b9f 58%, #54e6ff);
+  transform: rotate(-1deg) scale(1.03);
+}
+
+.lives-card strong {
+  color: #ff5b72;
+  letter-spacing: 0.08em;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255, 206, 82, 0.18), transparent 18rem),
+    rgba(12, 4, 18, 0.72);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+
+#overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay-panel {
+  width: min(560px, 100%);
+  padding: clamp(24px, 6vw, 46px);
+  border: 3px solid rgba(255, 242, 170, 0.78);
+  border-radius: 34px;
+  background:
+    linear-gradient(145deg, rgba(80, 29, 71, 0.94), rgba(31, 11, 47, 0.96)),
+    repeating-linear-gradient(45deg, transparent 0 12px, rgba(255, 255, 255, 0.04) 12px 14px);
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.18);
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--cyan);
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+h1 {
+  margin: 0;
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(3.2rem, 11vw, 6rem);
+  line-height: 0.82;
+  color: #ffdf6f;
+  text-shadow: 0 5px 0 #9b2c63, 0 16px 38px rgba(0, 0, 0, 0.45);
+}
+
+#overlayText {
+  margin: 22px auto 0;
+  max-width: 42ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: rgba(255, 248, 220, 0.88);
+}
+
+.feature-list {
+  margin: 24px auto;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 9px;
+  max-width: 380px;
+  text-align: left;
+}
+
+.feature-list li {
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.feature-list li::before {
+  content: '✦';
+  color: var(--green);
+  margin-right: 10px;
+}
+
+button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 16px 28px;
+  min-width: 190px;
+  font-family: 'Baloo 2', cursive;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #220916;
+  background: linear-gradient(135deg, #fff08a, #ffb23f 42%, #ff5b9f);
+  box-shadow: 0 10px 0 #8c284f, 0 23px 50px rgba(0, 0, 0, 0.38);
+  cursor: pointer;
+  transform: translateY(0);
+  transition: transform 150ms ease, box-shadow 150ms ease, filter 150ms ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.15) brightness(1.05);
+  box-shadow: 0 12px 0 #8c284f, 0 30px 60px rgba(0, 0, 0, 0.44);
+}
+
+button:active {
+  transform: translateY(6px);
+  box-shadow: 0 4px 0 #8c284f, 0 16px 34px rgba(0, 0, 0, 0.38);
+}
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(max(20px, env(safe-area-inset-bottom)) + 8px);
+  z-index: 7;
+  translate: -50% 0;
+  min-width: min(360px, calc(100vw - 32px));
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(14, 6, 24, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 248, 220, 0.92);
+  font-weight: 800;
+  text-align: center;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(-6px);
+}
+
+@media (max-width: 760px) {
+  #hud {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .combo-card {
+    grid-column: 1 / -1;
+    order: 5;
+    min-height: 42px;
+  }
+
+  .hud-card {
+    min-height: 46px;
+    padding: 7px 11px;
+    border-radius: 14px;
+  }
+
+  .high-card {
+    display: none;
+  }
+
+  .overlay-panel {
+    border-radius: 26px;
+  }
+
+  .feature-list {
+    display: none;
+  }
+}
+
+.mute-button {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  min-width: 0;
+  padding: 0;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 239, 171, 0.5);
+  background: linear-gradient(135deg, rgba(27, 10, 39, 0.82), rgba(72, 22, 56, 0.58));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 140ms ease, filter 140ms ease, box-shadow 140ms ease;
+}
+
+.mute-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.08);
+  box-shadow: 0 16px 46px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.mute-button:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.mute-button.muted {
+  border-color: rgba(255, 91, 114, 0.6);
+  filter: grayscale(0.4) brightness(0.9);
+}
+
+/* The HUD "Best" card hides on small screens; nudge the mute button below the
+   HUD row there so the two never overlap. */
+@media (max-width: 760px) {
+  .mute-button {
+    top: auto;
+    bottom: calc(max(20px, env(safe-area-inset-bottom)) + 64px);
+    width: 46px;
+    height: 46px;
+    font-size: 1.2rem;
+  }
+}
